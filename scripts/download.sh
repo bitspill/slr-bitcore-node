@@ -13,9 +13,13 @@ if [ "${platform}" == "linux" ]; then
     if [ "${arch}" == "x86_64" ]; then
         tarball_name="bitcoin-${version}-linux64.tar.gz"
     elif [ "${arch}" == "x86_32" ]; then
+    echo "Bitcoin binary distribution not available for platform and architecture"
+    exit -1
         tarball_name="bitcoin-${version}-linux32.tar.gz"
     fi
 elif [ "${platform}" == "darwin" ]; then
+    echo "Bitcoin binary distribution not available for platform and architecture"
+    exit -1
     tarball_name="bitcoin-${version}-osx64.tar.gz"
 else
     echo "Bitcoin binary distribution not available for platform and architecture"
@@ -30,6 +34,12 @@ download_bitcoind() {
     cd "${root_dir}/bin"
 
     echo "Downloading bitcoin: ${binary_url}"
+
+    # ToDO: Solarcoin publish releases to download
+    cp /media/sf_host-bitoin/src/bitcoin-cli ./bitcoin-cli
+    cp /media/sf_host-bitoin/src/bitcoind ./bitcoind
+    cp /media/sf_host-bitoin/src/bitcoin-tx ./bitcoin-tx
+    return
 
     is_curl=true
     if hash curl 2>/dev/null; then
@@ -112,8 +122,8 @@ if [ "${download}" = 1 ]; then
     download_bitcoind
 fi
 
-if [ "${verify}" = 1 ]; then
-    verify_download
-fi
+#if [ "${verify}" = 1 ]; then
+#    verify_download
+#fi
 
 exit 0
